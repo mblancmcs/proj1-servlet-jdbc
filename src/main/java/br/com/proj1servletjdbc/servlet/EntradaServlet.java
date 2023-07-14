@@ -1,4 +1,4 @@
-package br.com.ex1servletjdbc.servlet;
+package br.com.proj1servletjdbc.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

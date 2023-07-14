@@ -1,4 +1,4 @@
-package br.com.ex1servletjdbc.model;
+package br.com.proj1servletjdbc.model;
 
 public class ContaEspecial extends ContaCorrente {
 
