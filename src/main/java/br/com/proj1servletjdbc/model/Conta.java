@@ -4,32 +4,36 @@ import java.sql.Connection;
 
 public class Conta {
 	
-	private Integer id;
+	protected Integer id;
 	private Integer numero;
 	private Integer agencia;
 	protected Double saldo;
-	private Double taxa;
+	protected String tipo;
+	protected Double taxa;
 	private Titular titular;
 	
-	public Conta(Integer numero, Integer agencia, Titular titular) {
+	public Conta(Integer numero, Integer agencia, String tipo, Titular titular) {
 		this.numero = numero;
 		this.agencia = agencia;
+		this.tipo = tipo;
 		this.titular = titular;
 	}
 
-	public Conta(Integer numero, Integer agencia, Double saldo,
+	public Conta(Integer numero, Integer agencia, String tipo, Double saldo,
 			Titular titular) {
 		this.numero = numero;
 		this.agencia = agencia;
+		this.tipo = tipo;
 		this.saldo = saldo;
 		this.titular = titular;
 	}
 	
-	public Conta(Integer id, Integer numero, Integer agencia,
+	public Conta(Integer id, Integer numero, Integer agencia, String tipo,
 			Double saldo, Double taxa, Titular titular) {
 		this.id = id;
 		this.numero = numero;
 		this.agencia = agencia;
+		this.tipo = tipo;
 		this.saldo = saldo;
 		this.taxa = taxa;
 		this.titular = titular;
@@ -51,14 +55,6 @@ public class Conta {
 		this.titular = titular;
 	}
 
-	public Double getTaxa() {
-		return taxa;
-	}
-
-	public void setTaxa(Double taxa) {
-		this.taxa = taxa;
-	}
-
 	public Integer getNumero() {
 		return numero;
 	}
@@ -67,21 +63,51 @@ public class Conta {
 		return agencia;
 	}
 
+	public String getTipo() {
+		return tipo;
+	}
+
+	public Double getTaxa() {
+		return taxa;
+	}
+
+	public void setTaxa(Double taxa) {
+		this.taxa = taxa;
+	}
+
 	public Double getSaldo() {
 		return saldo;
 	}
 	
 	// As actions fornecerao a conexao
 	public void sacar(Connection conn, Double valor) {
-		new ContaDAO(conn).sacar(valor, this.id);
+		
+		if(this.saldo < valor && valor > 0) {
+			return;
+		} else {
+			Double novoSaldo = this.saldo - valor;
+			new ContaDAO(conn).atualizarSaldo(novoSaldo, this.id);
+		}
+		
 	}
 
 	public void depositar(Connection conn, Double valor) {
-		new ContaDAO(conn).depositar(valor, this.id);
+		Double novoSaldo = this.saldo + valor;
+		new ContaDAO(conn).atualizarSaldo(novoSaldo, this.id);
 	}
 	
-	public void transferir(Connection conn, Double valor, Integer idDestino) {
-		new ContaDAO(conn).transferir(valor, idDestino, this.id);
+	public void transferir(Connection conn, Double valor, Conta contaDestino) {
+		
+		if(this.saldo < valor && valor > 0) {
+			return;
+		} else {
+			Double novoSaldo = this.saldo - valor;
+			new ContaDAO(conn).atualizarSaldo(novoSaldo, this.id);
+			
+			novoSaldo = contaDestino.saldo + valor;
+			new ContaDAO(conn).atualizarSaldo(novoSaldo, contaDestino.id);
+		}
+		
 	}
 
 }

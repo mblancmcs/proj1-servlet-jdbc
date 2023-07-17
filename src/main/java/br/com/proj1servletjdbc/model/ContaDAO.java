@@ -18,7 +18,7 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 	
 	public String listarContasETitular() {
 		
-		sql = "SELECT T.id, T.nome, T.cpf, C.id, C.numero, C.agencia, C.saldo "
+		sql = "SELECT T.id, T.nome, T.cpf, C.id, C.tipo, C.numero, C.agencia, C.saldo, C.limite "
 				+ "FROM titular as T INNER JOIN conta as C "
 				+ "ON(T.id = C.id_titular)";
 		
@@ -33,12 +33,14 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 				String nome = rs.getString(2);
 				Integer cpf = rs.getInt(3);
 				Integer idConta = rs.getInt(4);
-				Integer numero = rs.getInt(5);
-				Integer agencia = rs.getInt(6);
-				Double saldo = rs.getDouble(7);
+				String tipo = rs.getString(5);
+				Integer numero = rs.getInt(6);
+				Integer agencia = rs.getInt(7);
+				Double saldo = rs.getDouble(8);
+				Double limite = rs.getDouble(9);
 				contasString += "Cod. Cliente: " + idCliente + " | Nome: " + nome + " | CPF: " + cpf + 
-						"\nCod. Conta: " + idConta + " | Numero: " + numero + " | Agencia: " + 
-						agencia + " | Saldo: " + saldo + "\n\n";
+						"\nCod. Conta: " + idConta + " | Tipo: Conta " + tipo + " | Numero: " + numero
+						+ " | Agencia: " + agencia + " | Saldo: " + saldo + " | Limite: " + limite + "\n\n";
 			}
 			
 			rs.close();
@@ -50,37 +52,6 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 		
 		return contasString;
 		
-	}
-	
-	public Titular listarTitularById(Integer id) {
-		
-		sql = "SELECT id, nome, cpf, email, endereco, senha FROM titular WHERE id = ?";
-		
-		Titular titular = null;
-		
-		try {
-			ps = this.conn.prepareStatement(sql);
-			ps.setInt(1, id);
-			
-			rs = ps.executeQuery();
-			
-			Integer idTitular = rs.getInt(1);
-			String nome = rs.getString(2);
-			Integer cpf = rs.getInt(3);
-			String email = rs.getString(4);
-			String endereco = rs.getString(5);
-			String senha = rs.getString(6);
-			
-			titular = new Titular(idTitular, nome, cpf, email, endereco, senha);
-			
-			rs.close();
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		
-		return titular;
 	}
 	
 	public Conta listarContaById(Integer id) {
@@ -100,11 +71,12 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 			Integer idConta = rs.getInt(1);
 			Integer numero = rs.getInt(2);
 			Integer agencia = rs.getInt(3);
-			Double saldo = rs.getDouble(4);
-			Double taxa = rs.getDouble(5);
-			Titular titular = listarTitularById(rs.getInt(6));
+			String tipo = rs.getString(4);
+			Double saldo = rs.getDouble(5);
+			Double taxa = rs.getDouble(6);
+			Titular titular =  new TitularDAO(conn).listarTitularById(rs.getInt(6));
 			
-			conta = new Conta(idConta, numero, agencia, saldo, taxa, titular);
+			conta = new Conta(idConta, numero, agencia, tipo, saldo, taxa, titular);
 			
 			rs.close();
 			ps.close();
@@ -194,60 +166,6 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 		
 	}
 	
-	public void editarSenha(Integer idTitular, String senha) {
-
-		sql = "UPDATE titular SET senha = ? WHERE id = ?";
-		
-		try {
-			ps = this.conn.prepareStatement(sql);
-			ps.setString(1, senha);
-			ps.setInt(2, idTitular);
-			ps.execute();
-			
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		
-	}
-
-	public void editarEmail(Integer idTitular, String email) {
-
-		sql = "UPDATE titular SET email = ? WHERE id = ?";
-		
-		try {
-			ps = this.conn.prepareStatement(sql);
-			ps.setString(1, email);
-			ps.setInt(2, idTitular);
-			ps.execute();
-			
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		
-	}
-
-	public void editarEndereco(Integer idTitular, String endereco) {
-
-		sql = "UPDATE titular SET endereco = ? WHERE id = ?";
-		
-		try {
-			ps = this.conn.prepareStatement(sql);
-			ps.setString(1, endereco);
-			ps.setInt(2, idTitular);
-			ps.execute();
-			
-			ps.close();
-			conn.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		
-	}
-	
 	public void excluirConta(Integer idConta) {
 		
 		Integer idTitular = listarContaById(idConta).getTitular().getId();
@@ -283,21 +201,79 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 		
 	}
 
-	public void sacar(Double valor, Integer idConta) {
+	public void atualizarSaldo(Double valor, Integer idConta) {
 
+		sql = "UPDATE conta SET valor = ? WHERE id = idConta";
 		
+		try {
+			ps = this.conn.prepareStatement(sql);
+			ps.setDouble(1, valor);
+			ps.setInt(1, idConta);
+			
+			ps.execute();
+			
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			new RuntimeException(e);
+		}
 		
 	}
-
-	public void depositar(Double valor, Integer idConta) {
-
+	
+	public void atualizarTipoConta (String tipo, Integer idConta) {
 		
+		sql = "UPDATE conta SET tipo = ? WHERE id = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, tipo);
+			ps.setInt(2, idConta);
+			
+			ps.execute();
+			
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 		
 	}
-
-	public void transferir(Double valor, Integer idDestino, Integer idOrigem) {
-
+	
+	public void atualizarTaxa (Double taxa, Integer idConta) {
 		
+		sql = "UPDATE conta SET taxa = ? WHERE id = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setDouble(1, taxa);
+			ps.setInt(2, idConta);
+			
+			ps.execute();
+			
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
+	
+	public void atualizarLimite (Double limite, Integer idConta) {
+		
+		sql = "UPDATE conta SET limite = ? WHERE id = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setDouble(1, limite);
+			ps.setInt(2, idConta);
+			
+			ps.execute();
+			
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 		
 	}
 	

@@ -1,5 +1,7 @@
 package br.com.proj1servletjdbc.model;
 
+import java.sql.Connection;
+
 public class Titular {
 
 	private Integer id;
@@ -22,8 +24,8 @@ public class Titular {
 		this.senha = senha;
 	}
 	
-	public Titular(Integer id, String nome, Integer cpf, String email, String endereco,
-			String senha) {
+	public Titular(Integer id, String nome, Integer cpf, String email,
+			String endereco, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
@@ -60,23 +62,27 @@ public class Titular {
 		return this.email;
 	}
 	
-	public void setEmail(String email) {
+	public void setEmail(Connection conn, Integer idTitular, String email) {
 		this.email = email;
+		new TitularDAO(conn).editarEmail(idTitular, email);
 	}
 	
 	public String getEndereco() {
 		return this.endereco;
 	}
 	
-	public void setEndereco(String endereco) {
+	public void setEndereco(Connection conn, Integer idTitular, String endereco) {
 		this.endereco = endereco;
+		new TitularDAO(conn).editarSenha(idTitular, endereco);
 	}
 	
 	public String getSenha() {
 		return senha;
 	}
 	
-	public void setSenha(String senha) {
+	public void setSenha(Connection conn, Integer idTitular, String senha) {
 		this.senha = senha;
+		new TitularDAO(conn).editarSenha(idTitular, senha);
 	}
+	
 }
