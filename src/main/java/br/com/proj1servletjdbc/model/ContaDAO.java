@@ -22,7 +22,7 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 				+ "FROM titular as T INNER JOIN conta as C "
 				+ "ON(T.id = C.id_titular)";
 		
-		String contasString = null;
+		String contasString = "";
 		
 		try {
 			ps = this.conn.prepareStatement(sql);
@@ -39,8 +39,8 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 				Double saldo = rs.getDouble(8);
 				Double limite = rs.getDouble(9);
 				contasString += "Cod. Cliente: " + idCliente + " | Nome: " + nome + " | CPF: " + cpf + 
-						"\nCod. Conta: " + idConta + " | Tipo: Conta " + tipo + " | Numero: " + numero
-						+ " | Agencia: " + agencia + " | Saldo: " + saldo + " | Limite: " + limite + "\n\n";
+						"<br />Cod. Conta: " + idConta + " | Tipo: Conta " + tipo + " | Numero: " + numero
+						+ " | Agencia: " + agencia + " | Saldo: " + saldo + " | Limite: " + limite + "<br /><br />";
 			}
 			
 			rs.close();

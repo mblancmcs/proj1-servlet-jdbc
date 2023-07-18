@@ -12,18 +12,16 @@ public class Conta {
 	protected Double taxa;
 	private Titular titular;
 	
-	public Conta(Integer numero, Integer agencia, String tipo, Titular titular) {
+	public Conta(Integer numero, Integer agencia, Titular titular) {
 		this.numero = numero;
 		this.agencia = agencia;
-		this.tipo = tipo;
 		this.titular = titular;
 	}
 
-	public Conta(Integer numero, Integer agencia, String tipo, Double saldo,
+	public Conta(Integer numero, Integer agencia, Double saldo,
 			Titular titular) {
 		this.numero = numero;
 		this.agencia = agencia;
-		this.tipo = tipo;
 		this.saldo = saldo;
 		this.titular = titular;
 	}

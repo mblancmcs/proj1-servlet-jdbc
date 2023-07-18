@@ -6,12 +6,12 @@ public class ContaPoupanca extends Conta implements Rendimentos {
 
 	public ContaPoupanca(Integer numero, Integer agencia, String tipo,
 			Titular titular) {
-		super(numero, agencia, tipo, titular);
+		super(numero, agencia, titular);
 	}
 
 	public ContaPoupanca(Integer numero, Integer agencia, String tipo, Double saldo,
 			Titular titular) {
-		super(numero, agencia, tipo, saldo, titular);
+		super(numero, agencia, saldo, titular);
 	}
 
 	public ContaPoupanca(Integer id, Integer numero, Integer agencia, String tipo,

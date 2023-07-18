@@ -37,11 +37,11 @@ public class ValidaLogin implements Acao {
 		if(titularValidado != null && titularValidado.getPerfil().equals("admin")) {
 			HttpSession sessao = req.getSession();
 			sessao.setAttribute("titularLogado", titularValidado);
-			return "redirect:AdminPage";
+			return "redirect:entrada?acao=AdminPage";
 		} else if (titularValidado != null && !(titularValidado.getNome().equals("admin"))) {
 			HttpSession sessao = req.getSession();
 			sessao.setAttribute("titularLogado", titularValidado);
-			return "redirect:UserPage";
+			return "redirect:entrada?acao=UserPage";
 		} else  {
 			return "forward:formLogin.jsp";
 		}

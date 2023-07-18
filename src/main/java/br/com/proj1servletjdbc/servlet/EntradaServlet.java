@@ -20,6 +20,7 @@ public class EntradaServlet extends HttpServlet {
 		
 		try {
 			String nomeClasse = "br.com.proj1servletjdbc.actions." + parametro;
+			// API Reflection
 			Class classe = Class.forName(nomeClasse);
 			acao = (Acao) classe.newInstance();
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
@@ -31,7 +32,7 @@ public class EntradaServlet extends HttpServlet {
 		
 		String[] tipoEndereco = respAction.split(":");
 		if(tipoEndereco[0].equals("forward")) {
-			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views/" + tipoEndereco[1]);
+			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views" + tipoEndereco[1]);
 			rd.forward(request, response);
 		} else {
 			response.sendRedirect(tipoEndereco[1]);

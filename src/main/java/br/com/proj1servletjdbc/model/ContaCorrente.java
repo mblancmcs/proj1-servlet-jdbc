@@ -8,12 +8,12 @@ public class ContaCorrente extends Conta {
 
 	public ContaCorrente(Integer numero, Integer agencia, String tipo,
 			Titular titular) {
-		super(numero, agencia, tipo, titular);
+		super(numero, agencia, titular);
 	}
 
 	public ContaCorrente(Integer numero, Integer agencia, String tipo, Double saldo,
 			Titular titular) {
-		super(numero, agencia, tipo, saldo, titular);
+		super(numero, agencia, saldo, titular);
 	}
 
 	public ContaCorrente(Integer id, Integer numero, Integer agencia, String tipo,

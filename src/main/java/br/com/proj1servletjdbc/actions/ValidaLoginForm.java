@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.proj1servletjdbc.servlet.Acao;
 
 @WebServlet("/MostraFormLogin")
-public class MostraFormLogin implements Acao {
+public class ValidaLoginForm implements Acao {
 
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		return "forward:formLogin.jsp";
+		return "forward:/formLogin.jsp";
 		
 	}
 
