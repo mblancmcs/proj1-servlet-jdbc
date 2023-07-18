@@ -31,7 +31,7 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 			while(rs.next()) {
 				Integer idCliente = rs.getInt(1);
 				String nome = rs.getString(2);
-				Integer cpf = rs.getInt(3);
+				Long cpf = rs.getLong(3);
 				Integer idConta = rs.getInt(4);
 				String tipo = rs.getString(5);
 				Integer numero = rs.getInt(6);
@@ -101,7 +101,7 @@ public class ContaDAO { // responsabilidade de interação com o banco de dados
 		try {
 			ps = this.conn.prepareStatement(sql);
 			ps.setString(1, titular.getNome());
-			ps.setInt(2, titular.getCpf());
+			ps.setLong(2, titular.getCpf());
 			ps.setString(3, titular.getEmail());
 			ps.setString(4, titular.getEndereco());
 			ps.setString(5, titular.getSenha());

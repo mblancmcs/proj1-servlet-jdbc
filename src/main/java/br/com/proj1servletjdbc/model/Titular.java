@@ -6,16 +6,17 @@ public class Titular {
 
 	private Integer id;
 	private String nome;
-	private Integer cpf;
+	private Long cpf;
 	private String email;
 	private String endereco;
 	private String senha;
+	private String perfil;
 	
 	public Titular() {
 		
 	}
 	
-	public Titular(String nome, Integer cpf, String email, String endereco,
+	public Titular(String nome, Long cpf, String email, String endereco,
 			String senha) {
 		this.nome = nome;
 		this.cpf = cpf;
@@ -24,14 +25,15 @@ public class Titular {
 		this.senha = senha;
 	}
 	
-	public Titular(Integer id, String nome, Integer cpf, String email,
-			String endereco, String senha) {
+	public Titular(Integer id, String nome, Long cpf, String email,
+			String endereco, String senha, String perfil) {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
 		this.endereco = endereco;
 		this.senha = senha;
+		this.perfil = perfil;
 	}
 	
 	public Integer getId() {
@@ -50,12 +52,16 @@ public class Titular {
 		this.nome = nome;
 	}
 	
-	public Integer getCpf() {
+	public Long getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(Long cpf) {
 		this.cpf = cpf;
+	}
+	
+	public String getPerfil() {
+		return this.perfil;
 	}
 
 	public String getEmail() {

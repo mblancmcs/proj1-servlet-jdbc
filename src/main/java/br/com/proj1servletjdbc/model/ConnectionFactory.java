@@ -20,10 +20,13 @@ public class ConnectionFactory {
 	
 	private HikariDataSource createDataSource() {
 		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl("jdbc://localhost:3306/excontabancaria");
+		config.setJdbcUrl("jdbc:mysql://localhost:3306/excontabancaria");
 		config.setUsername("root");
 		config.setPassword("root");
 		config.setMaximumPoolSize(10);
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        // quando eh usado "drivers antigos" eh preciso informar o caminho para ele.
+        // também foi preciso adicionar mais duas bibliotecas com inicio "slf4j"
 		
 		return new HikariDataSource(config);
 	}
