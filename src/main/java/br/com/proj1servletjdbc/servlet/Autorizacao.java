@@ -31,11 +31,11 @@ public class Autorizacao extends HttpFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		
 		String acaoParametro = request.getParameter("acao");
-		boolean acaoProtegida = !(acaoParametro.equals("loginForm") || acaoParametro.equals("ValidaLogin"));
+		boolean acaoProtegida = !(acaoParametro.equals("LoginForm") || acaoParametro.equals("ValidaLogin"));
 		
 		HttpSession sessao = request.getSession();
 		if(acaoProtegida && sessao.getAttribute("titularLogado") == null) {
-			response.sendRedirect("entrada?acao=loginForm");
+			response.sendRedirect("entrada?acao=LoginForm");
 			return;
 		}
 

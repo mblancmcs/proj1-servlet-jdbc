@@ -43,7 +43,7 @@ public class ValidaLogin implements Acao {
 			sessao.setAttribute("titularLogado", titularValidado);
 			return "redirect:entrada?acao=UserPage";
 		} else  {
-			return "forward:formLogin.jsp";
+			return "forward:/formLogin.jsp";
 		}
 
 	}

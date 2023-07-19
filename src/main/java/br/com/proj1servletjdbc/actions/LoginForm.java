@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.proj1servletjdbc.servlet.Acao;
 
-@WebServlet("/loginForm")
-public class ValidaLoginForm implements Acao {
+public class LoginForm implements Acao {
 
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
