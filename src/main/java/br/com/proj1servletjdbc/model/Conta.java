@@ -77,29 +77,31 @@ public class Conta {
 		return saldo;
 	}
 	
+	private Double novoSaldo;
+	
 	// As actions fornecerao a conexao
 	public void sacar(Connection conn, Double valor) {
 		
-		if(this.saldo < valor && valor > 0) {
+		if(this.saldo < valor || valor < 0) {
 			return;
 		} else {
-			Double novoSaldo = this.saldo - valor;
+			novoSaldo = this.saldo - valor;
 			new ContaDAO(conn).atualizarSaldo(novoSaldo, this.id);
 		}
 		
 	}
 
 	public void depositar(Connection conn, Double valor) {
-		Double novoSaldo = this.saldo + valor;
+		novoSaldo = this.saldo + valor;
 		new ContaDAO(conn).atualizarSaldo(novoSaldo, this.id);
 	}
 	
 	public void transferir(Connection conn, Double valor, Conta contaDestino) {
 		
-		if(this.saldo < valor && valor > 0) {
+		if(this.saldo < valor || valor < 0) {
 			return;
 		} else {
-			Double novoSaldo = this.saldo - valor;
+			novoSaldo = this.saldo - valor;
 			new ContaDAO(conn).atualizarSaldo(novoSaldo, this.id);
 			
 			novoSaldo = contaDestino.saldo + valor;
